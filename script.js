@@ -1,8 +1,10 @@
 // Função de exibição do erro
 function exibirErro(mensagem) {
-    const erroDiv = document.getElementById('erro');
+    const erroDiv = document.querySelector('.toast-body');
+    const toastLiveExample = document.getElementById('liveToast')
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
     erroDiv.innerText = mensagem;
-    erroDiv.style.color = 'red';
+    toastBootstrap.show()
 }
 
 function criarFuncionarios() {
@@ -55,6 +57,8 @@ class Desenvolvedor extends Funcionario {
 }
 
 function criarFuncionarios() {
+    document.getElementById('resultado').innerHTML = "";
+
     try {
         const nomeGerente = document.getElementById('nomeGerente').value;
         const idadeGerente = parseInt(document.getElementById('idadeGerente').value);
@@ -63,13 +67,20 @@ function criarFuncionarios() {
         const nomeDev = document.getElementById('nomeDev').value;
         const idadeDev = parseInt(document.getElementById('idadeDev').value);
         const linguagemDev = document.getElementById('linguagemDev').value;
+        let error = [];
 
         if (!nomeGerente || isNaN(idadeGerente) || !departamentoGerente) {
-            throw new Error("Por favor, preencha todos os campos do gerente corretamente.");
+            error.push("Por favor, preencha todos os campos do gerente corretamente.")
+            // throw new Error("Por favor, preencha todos os campos do gerente corretamente.");
         }
 
         if (!nomeDev || isNaN(idadeDev) || !linguagemDev) {
-            throw new Error("Por favor, preencha todos os campos do desenvolvedor corretamente.");
+            error.push("Por favor, preencha todos os campos do desenvolvedor corretamente.")
+            // throw new Error("Por favor, preencha todos os campos do desenvolvedor corretamente.");
+        }
+
+        if (error.length > 0) {
+            throw new Error (error.join(" "))
         }
 
         const gerente = new Gerente(nomeGerente, idadeGerente, 'Gerente', departamentoGerente);
